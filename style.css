@@ -1,0 +1,123 @@
+:root {
+  --primary-color: #047aed;
+  --secondary-color: #1c3fa8;
+  --dark-color: #002240;
+  --light-color: #f4f4f4;
+  --success-color: #5cb85c;
+  --error-color: #d9534f;
+}
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: 'lato', sans-serif;
+  color: #333;
+  line-height: 1.6;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+input {
+  margin-bottom: 10px;
+  display: block;
+}
+button {
+  margin-top: 10px;
+  margin-right: 10px;
+}
+ul {
+  list-style-type: none;
+}
+li {
+  margin-bottom: 5px;
+}
+table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 10px;
+}
+table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th,
+td {
+  padding: 10px;
+  text-align: left;
+}
+
+/* showcase */
+.showcase {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+.showcase h1 h3 {
+  font-size: 40px;
+}
+.showcase p {
+  margin: 20px 0;
+}
+
+/*flex*/
+.flex {
+  margin-top: auto;
+  background-color: var(--success-color);
+  color: #fff;
+  text-align: center;
+}
+
+/*grid*/
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(1, 1fr);
+  justify-items: center;
+}
+
+.card1 {
+  /*  lam cham qua trinh khi di chuot qua phan tu*/
+  transition: transform 0.5s ease-in-out;
+}
+
+.card2 {
+  margin: 10px 10px;
+  /*  lam cham qua trinh khi di chuot qua phan tu*/
+  transition: transform 0.5s ease-in-out;
+}
+
+.card1:hover {
+  transform: translatey(-6px);
+}
+.card2:hover {
+  transform: translatey(-6px);
+}
+/* table and under */
+@media (max-width: 786px) {
+  .navar .showcase {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+  }
+  .showcase .navar .flex {
+    height: auto;
+  }
+}
+
+/* mobile */
+@media (max-width: 500px) {
+  .navar .showcase .flex {
+    height: 110px;
+  }
+  .navar .showcase .flex {
+    flex-direction: column;
+    justify-items: center;
+  }
+}

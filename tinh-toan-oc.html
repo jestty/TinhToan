@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản lý ốc và linh kiện</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body class="navar">
+    <div class="showcase grid">
+      <h1>Quản lý ốc và linh kiện</h1>
+      <div class="oc">
+        <h3>Thêm ốc</h3>
+        <label for="tenOc">Tên loại ốc:</label>
+        <input type="text" id="tenOc" />
+        <label for="soLuongOc">Số lượng:</label>
+        <input type="number" id="soLuongOc" />
+        <button class="card1" onclick="themOc()">Thêm ốc</button>
+      </div>
+
+      <div class="linhKien">
+        <h3>Thêm linh kiện</h3>
+        <label for="tenLinhKien">Tên linh kiện:</label>
+        <input type="text" id="tenLinhKien" />
+        <label for="soLuongLinhKien">Số lượng:</label>
+        <input type="number" id="soLuongLinhKien" />
+        <button class="card1" onclick="themLinhKien()">Thêm linh kiện</button>
+      </div>
+
+      <div class="bangDanhSach">
+        <h1 class="text">Bảng danh sách</h1>
+        <button class="card2" onclick="luuDuLieu()">
+          Lưu dữ liệu vào bảng danh sách
+        </button>
+        <button class="card2" onclick="xoaDuLieu()">Xóa hết dữ liệu</button>
+      </div>
+    </div>
+
+    <!-- Bảng danh sách -->
+    <div class="flex">
+      <table id="bangDanhSach">
+        <thead>
+          <tr>
+            <th>Loại</th>
+            <th>Tên</th>
+            <th>Số lượng</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Nội dung sẽ được chèn vào đây bởi JavaScript -->
+        </tbody>
+      </table>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
