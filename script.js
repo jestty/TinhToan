@@ -1,55 +1,110 @@
-// Hàm để thêm loại ốc vào danh sách và lưu vào LocalStorage
+// Biến để lưu tạm danh sách ốc và linh kiện
+var danhSachOcTam = [];
+var danhSachLinhKienTam = [];
+
+// Hàm thêm ốc vào danh sách tạm
 function themOc() {
-  var tenOc = document.getElementById('tenOc').value.trim();
-  var soLuongOc = parseInt(document.getElementById('soLuongOc').value) || 0;
+  var tenOc = document.getElementById('tenOc').value;
+  var soLuongOc = parseInt(document.getElementById('soLuongOc').value);
 
-  if (tenOc && soLuongOc > 0) {
-    var danhSachOc = JSON.parse(localStorage.getItem('ocList')) || [];
-    var ocTonTai = danhSachOc.find(function (item) {
-      return item.ten.toLowerCase() === tenOc.toLowerCase();
-    });
-
-    if (ocTonTai) {
-      ocTonTai.soLuong += soLuongOc;
-    } else {
-      danhSachOc.push({ ten: tenOc, soLuong: soLuongOc });
-    }
-
-    localStorage.setItem('ocList', JSON.stringify(danhSachOc));
-    hienThiDanhSach();
-  } else {
-    alert('Vui lòng nhập tên loại ốc và số lượng hợp lệ!');
+  if (!tenOc || soLuongOc <= 0 || isNaN(soLuongOc)) {
+    alert('Vui lòng nhập tên và số lượng hợp lệ.');
+    return;
   }
+
+  // Kiểm tra xem ốc đã tồn tại chưa
+  var ocTonTai = danhSachOcTam.find(function (item) {
+    return item.ten === tenOc;
+  });
+
+  if (ocTonTai) {
+    ocTonTai.soLuong += soLuongOc; // Nếu có, cập nhật số lượng
+  } else {
+    danhSachOcTam.push({ ten: tenOc, soLuong: soLuongOc });
+  }
+
+  hienThiDanhSach();
 }
 
-// Hàm để thêm linh kiện vào danh sách và lưu vào LocalStorage
+// Hàm thêm linh kiện vào danh sách tạm
 function themLinhKien() {
-  var tenLinhKien = document.getElementById('tenLinhKien').value.trim();
-  var soLuongLinhKien =
-    parseInt(document.getElementById('soLuongLinhKien').value) || 0;
+  var tenLinhKien = document.getElementById('tenLinhKien').value;
+  var soLuongLinhKien = parseInt(
+    document.getElementById('soLuongLinhKien').value
+  );
 
-  if (tenLinhKien && soLuongLinhKien > 0) {
-    var danhSachLinhKien =
-      JSON.parse(localStorage.getItem('linhKienList')) || [];
-    var linhKienTonTai = danhSachLinhKien.find(function (item) {
-      return item.ten.toLowerCase() === tenLinhKien.toLowerCase();
-    });
-
-    if (linhKienTonTai) {
-      linhKienTonTai.soLuong += soLuongLinhKien;
-    } else {
-      danhSachLinhKien.push({ ten: tenLinhKien, soLuong: soLuongLinhKien });
-    }
-
-    localStorage.setItem('linhKienList', JSON.stringify(danhSachLinhKien));
-    hienThiDanhSach();
-  } else {
-    alert('Vui lòng nhập tên linh kiện và số lượng hợp lệ!');
+  if (!tenLinhKien || soLuongLinhKien <= 0 || isNaN(soLuongLinhKien)) {
+    alert('Vui lòng nhập tên và số lượng hợp lệ.');
+    return;
   }
+
+  // Kiểm tra xem linh kiện đã tồn tại chưa
+  var linhKienTonTai = danhSachLinhKienTam.find(function (item) {
+    return item.ten === tenLinhKien;
+  });
+
+  if (linhKienTonTai) {
+    linhKienTonTai.soLuong += soLuongLinhKien; // Nếu có, cập nhật số lượng
+  } else {
+    danhSachLinhKienTam.push({ ten: tenLinhKien, soLuong: soLuongLinhKien });
+  }
+
+  hienThiDanhSach();
 }
 
-// Hàm để lưu dữ liệu vào bảng danh sách và hiển thị nó
+// Hàm hiển thị danh sách ốc và linh kiện
 function hienThiDanhSach() {
+  var bangDanhSach = document
+    .getElementById('bangDanhSach')
+    .getElementsByTagName('tbody')[0];
+  bangDanhSach.innerHTML = ''; // Xóa nội dung bảng cũ
+
+  // Hiển thị danh sách ốc
+  danhSachOcTam.forEach(function (item) {
+    var row = bangDanhSach.insertRow();
+    var cellLoai = row.insertCell(0);
+    var cellTen = row.insertCell(1);
+    var cellSoLuong = row.insertCell(2);
+    cellLoai.innerHTML = 'Ốc';
+    cellTen.innerHTML = item.ten;
+    cellSoLuong.innerHTML = item.soLuong;
+  });
+
+  // Hiển thị danh sách linh kiện
+  danhSachLinhKienTam.forEach(function (item) {
+    var row = bangDanhSach.insertRow();
+    var cellLoai = row.insertCell(0);
+    var cellTen = row.insertCell(1);
+    var cellSoLuong = row.insertCell(2);
+    cellLoai.innerHTML = 'Linh kiện';
+    cellTen.innerHTML = item.ten;
+    cellSoLuong.innerHTML = item.soLuong;
+  });
+}
+
+// Hàm xóa tất cả dữ liệu đã nhập
+function xoaDuLieu() {
+  danhSachOcTam = [];
+  danhSachLinhKienTam = [];
+  hienThiDanhSach();
+}
+
+// Hàm để lưu dữ liệu vào bảng danh sách và xuất ra file PDF
+function luuDuLieu() {
+  hienThiDanhSach(); // Hiển thị lại danh sách trong bảng
+  xuatPdf(); // Gọi hàm xuất file PDF
+}
+
+// Hàm để xuất nội dung bảng thành file PDF
+function xuatPdf() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  // Thiết lập tiêu đề cho PDF
+  doc.setFontSize(16);
+  doc.text('Danh sách ốc và linh kiện', 10, 10);
+
+  // Lấy bảng danh sách từ HTML
   var bangDanhSach = document
     .getElementById('bangDanhSach')
     .getElementsByTagName('tbody')[0];
@@ -59,34 +114,35 @@ function hienThiDanhSach() {
     return;
   }
 
-  bangDanhSach.innerHTML = ''; // Xóa nội dung cũ của bảng
+  // Khai báo biến `data`
+  var data = [];
 
-  var danhSachOc = JSON.parse(localStorage.getItem('ocList')) || [];
-  var danhSachLinhKien = JSON.parse(localStorage.getItem('linhKienList')) || [];
+  // Lấy tất cả các hàng dữ liệu từ bảng
+  var rows = bangDanhSach.getElementsByTagName('tr');
 
-  // Hiển thị danh sách ốc
-  danhSachOc.forEach(function (item) {
-    var tr = document.createElement('tr');
-    tr.innerHTML = `<td>Ốc</td><td>${item.ten}</td><td>${item.soLuong}</td>`;
-    bangDanhSach.appendChild(tr);
-  });
+  // Thêm các hàng dữ liệu từ bảng vào mảng `data`
+  for (var i = 0; i < rows.length; i++) {
+    var cells = rows[i].getElementsByTagName('td');
+    var rowData = [
+      cells[0].textContent, // Loại (Ốc hoặc Linh kiện)
+      cells[1].textContent, // Tên của loại ốc hoặc linh kiện
+      cells[2].textContent, // Số lượng
+    ];
+    data.push(rowData); // Thêm dòng dữ liệu vào mảng `data`
+  }
 
-  // Hiển thị danh sách linh kiện
-  danhSachLinhKien.forEach(function (item) {
-    var tr = document.createElement('tr');
-    tr.innerHTML = `<td>Linh kiện</td><td>${item.ten}</td><td>${item.soLuong}</td>`;
-    bangDanhSach.appendChild(tr);
-  });
+  // Sử dụng autotable để tạo bảng trong PDF
+  if (doc.autoTable) {
+    // Kiểm tra xem hàm autoTable có tồn tại không
+    doc.autoTable({
+      head: [['Loại', 'Tên', 'Số lượng']], // Tiêu đề các cột
+      body: data, // Dữ liệu của bảng
+      startY: 20, // Vị trí bắt đầu của bảng trong file PDF
+    });
+
+    // Lưu file PDF
+    doc.save('danh_sach_oc_linh_kien.pdf');
+  } else {
+    console.error('autoTable is not loaded.');
+  }
 }
-
-// Hàm để xóa toàn bộ dữ liệu và làm trống bảng
-function xoaDuLieu() {
-  localStorage.removeItem('ocList');
-  localStorage.removeItem('linhKienList');
-  hienThiDanhSach();
-}
-
-// Gọi hàm hienThiDanhSach khi trang đã tải xong
-window.onload = function () {
-  hienThiDanhSach();
-};
