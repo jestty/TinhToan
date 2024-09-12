@@ -65,7 +65,7 @@ function hienThiDanhSach() {
     var cellLoai = row.insertCell(0);
     var cellTen = row.insertCell(1);
     var cellSoLuong = row.insertCell(2);
-    cellLoai.innerHTML = 'Ốc';
+    cellLoai.innerHTML = 'ネジ';
     cellTen.innerHTML = item.ten;
     cellSoLuong.innerHTML = item.soLuong;
   });
@@ -76,7 +76,7 @@ function hienThiDanhSach() {
     var cellLoai = row.insertCell(0);
     var cellTen = row.insertCell(1);
     var cellSoLuong = row.insertCell(2);
-    cellLoai.innerHTML = 'Linh kiện';
+    cellLoai.innerHTML = '部品';
     cellTen.innerHTML = item.ten;
     cellSoLuong.innerHTML = item.soLuong;
   });
@@ -96,16 +96,11 @@ function luuDuLieu() {
 }
 
 // Hàm để xuất nội dung bảng thành file PDF
-function xuatPdf() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
+// Hàm để xuất nội dung bảng thành file PDF
 
-  // Thiết lập tiêu đề cho PDF
-  doc.setFontSize(16);
-  doc.text('Danh sách ốc và linh kiện', 10, 10);
-
+function xuatExcel() {
   // Lấy bảng danh sách từ HTML
-  var bangDanhSach = document
+  const bangDanhSach = document
     .getElementById('bangDanhSach')
     .getElementsByTagName('tbody')[0];
 
@@ -115,15 +110,18 @@ function xuatPdf() {
   }
 
   // Khai báo biến `data`
-  var data = [];
+  const data = [];
+
+  // Thêm tiêu đề cột
+  data.push(['Loại', 'Tên', 'Số lượng']);
 
   // Lấy tất cả các hàng dữ liệu từ bảng
-  var rows = bangDanhSach.getElementsByTagName('tr');
+  const rows = bangDanhSach.getElementsByTagName('tr');
 
   // Thêm các hàng dữ liệu từ bảng vào mảng `data`
-  for (var i = 0; i < rows.length; i++) {
-    var cells = rows[i].getElementsByTagName('td');
-    var rowData = [
+  for (let i = 0; i < rows.length; i++) {
+    const cells = rows[i].getElementsByTagName('td');
+    const rowData = [
       cells[0].textContent, // Loại (Ốc hoặc Linh kiện)
       cells[1].textContent, // Tên của loại ốc hoặc linh kiện
       cells[2].textContent, // Số lượng
@@ -131,18 +129,11 @@ function xuatPdf() {
     data.push(rowData); // Thêm dòng dữ liệu vào mảng `data`
   }
 
-  // Sử dụng autotable để tạo bảng trong PDF
-  if (doc.autoTable) {
-    // Kiểm tra xem hàm autoTable có tồn tại không
-    doc.autoTable({
-      head: [['Loại', 'Tên', 'Số lượng']], // Tiêu đề các cột
-      body: data, // Dữ liệu của bảng
-      startY: 20, // Vị trí bắt đầu của bảng trong file PDF
-    });
+  // Tạo workbook và worksheet
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.aoa_to_sheet(data);
+  XLSX.utils.book_append_sheet(wb, ws, 'Danh sách');
 
-    // Lưu file PDF
-    doc.save('danh_sach_oc_linh_kien.pdf');
-  } else {
-    console.error('autoTable is not loaded.');
-  }
+  // Xuất file Excel
+  XLSX.writeFile(wb, 'danh_sach_oc_linh_kien.xlsx');
 }
