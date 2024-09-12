@@ -89,10 +89,10 @@ function xoaDuLieu() {
   hienThiDanhSach();
 }
 
-// Hàm để lưu dữ liệu vào bảng danh sách và xuất ra file PDF
+// Hàm để lưu dữ liệu vào bảng danh sách và xuất ra file exel
 function luuDuLieu() {
   hienThiDanhSach(); // Hiển thị lại danh sách trong bảng
-  xuatPdf(); // Gọi hàm xuất file PDF
+  xuatExcel(); // Gọi hàm xuất file exel
 }
 
 // Hàm để xuất nội dung bảng thành file PDF
@@ -113,7 +113,7 @@ function xuatExcel() {
   const data = [];
 
   // Thêm tiêu đề cột
-  data.push(['Loại', 'Tên', 'Số lượng']);
+  data.push(['種類', '名前', '数量']);
 
   // Lấy tất cả các hàng dữ liệu từ bảng
   const rows = bangDanhSach.getElementsByTagName('tr');
