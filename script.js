@@ -76,7 +76,7 @@ function hienThiDanhSach() {
     var cellLoai = row.insertCell(0);
     var cellTen = row.insertCell(1);
     var cellSoLuong = row.insertCell(2);
-    cellLoai.innerHTML = '部品';
+    cellLoai.innerHTML = '購入品';
     cellTen.innerHTML = item.ten;
     cellSoLuong.innerHTML = item.soLuong;
   });
@@ -89,16 +89,19 @@ function xoaDuLieu() {
   hienThiDanhSach();
 }
 
-// Hàm để lưu dữ liệu vào bảng danh sách và xuất ra file exel
+// Hàm để lưu dữ liệu vào bảng danh sách và xuất ra file PDF
 function luuDuLieu() {
   hienThiDanhSach(); // Hiển thị lại danh sách trong bảng
-  xuatExcel(); // Gọi hàm xuất file exel
+  xuatExcel(); // Gọi hàm xuất file PDF
 }
 
 // Hàm để xuất nội dung bảng thành file PDF
 // Hàm để xuất nội dung bảng thành file PDF
 
 function xuatExcel() {
+  // Lấy tên bộ phận lắp ráp
+  const tenBoPhan = document.getElementById('tenBoPhan').value;
+
   // Lấy bảng danh sách từ HTML
   const bangDanhSach = document
     .getElementById('bangDanhSach')
@@ -112,8 +115,12 @@ function xuatExcel() {
   // Khai báo biến `data`
   const data = [];
 
+  // Thêm tên bộ phận lắp ráp vào đầu danh sách
+  data.push(['部品の名前', tenBoPhan]);
+  data.push([]); // Thêm dòng trống để cách giữa tên bộ phận và bảng dữ liệu
+
   // Thêm tiêu đề cột
-  data.push(['種類', '名前', '数量']);
+  data.push(['タイプ', '名前', '数量']);
 
   // Lấy tất cả các hàng dữ liệu từ bảng
   const rows = bangDanhSach.getElementsByTagName('tr');
