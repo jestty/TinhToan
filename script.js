@@ -65,7 +65,7 @@ function hienThiDanhSach() {
     var cellLoai = row.insertCell(0);
     var cellTen = row.insertCell(1);
     var cellSoLuong = row.insertCell(2);
-    cellLoai.innerHTML = 'ネジ';
+    cellLoai.innerHTML = 'ネジorワッシャー';
     cellTen.innerHTML = item.ten;
     cellSoLuong.innerHTML = item.soLuong;
   });
