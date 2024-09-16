@@ -106,17 +106,17 @@ td {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
   }
-  .showcase .navar .flex {
+  .showcase .navar .flex .memo .time {
     height: auto;
   }
 }
 
 /* mobile */
 @media (max-width: 500px) {
-  .navar .showcase .flex .ghiChu .dongHo {
+  .navar .showcase .flex .memo .time {
     height: 110px;
   }
-  .navar .showcase .flex .ghiChu .dongHo {
+  .navar .showcase .flex .memo .time {
     flex-direction: column;
     justify-items: center;
   }
