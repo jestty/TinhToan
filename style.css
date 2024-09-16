@@ -102,7 +102,7 @@ td {
 }
 /* table and under */
 @media (max-width: 786px) {
-  .navar .showcase {
+  .showcase {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
   }
