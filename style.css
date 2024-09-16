@@ -102,21 +102,21 @@ td {
 }
 /* table and under */
 @media (max-width: 786px) {
-  .navar .showcase {
+  .navar .showcase .ghiChu .dongHo {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
   }
-  .showcase .navar .flex {
+  .showcase .navar .flex .ghiChu .dongHo {
     height: auto;
   }
 }
 
 /* mobile */
 @media (max-width: 500px) {
-  .navar .showcase .flex {
+  .navar .showcase .flex .ghiChu .dongHo {
     height: 110px;
   }
-  .navar .showcase .flex {
+  .navar .showcase .flex .ghiChu .dongHo {
     flex-direction: column;
     justify-items: center;
   }
