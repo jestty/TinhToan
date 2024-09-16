@@ -1,6 +1,10 @@
 // Biến để lưu tạm danh sách ốc và linh kiện
 var danhSachOcTam = [];
 var danhSachLinhKienTam = [];
+var danhSachGiaCongTam = [];
+
+let thoiGianBatDau, thoiGianKetThuc, thoiGianDemNguoc;
+let isRunning = false;
 
 // Hàm thêm ốc vào danh sách tạm
 function themOc() {
@@ -26,7 +30,7 @@ function themOc() {
   hienThiDanhSach();
 }
 
-// Hàm thêm linh kiện vào danh sách tạm
+// Hàm thêm linh kien mua vào danh sách tạm
 function themLinhKien() {
   var tenLinhKien = document.getElementById('tenLinhKien').value;
   var soLuongLinhKien = parseInt(
@@ -52,6 +56,32 @@ function themLinhKien() {
   hienThiDanhSach();
 }
 
+// Hàm thêm chi tiet gia cong vào danh sách tạm
+function themGiaCong() {
+  var tenGiaCong = document.getElementById('tenGiaCong').value;
+  var soLuongGiaCong = parseInt(
+    document.getElementById('soLuongGiaCong').value
+  );
+
+  if (!tenGiaCong || soLuongGiaCong <= 0 || isNaN(soLuongGiaCong)) {
+    alert('Vui lòng nhập tên và số lượng hợp lệ.');
+    return;
+  }
+
+  // Kiểm tra xem linh kiện đã tồn tại chưa
+  var giaCongTonTai = danhSachGiaCongTam.find(function (item) {
+    return item.ten === tenGiaCong;
+  });
+
+  if (giaCongTonTai) {
+    giaCongTonTai.soLuong += soLuongGiaCong; // Nếu có, cập nhật số lượng
+  } else {
+    danhSachGiaCongTam.push({ ten: tenGiaCong, soLuong: soLuongGiaCong });
+  }
+
+  hienThiDanhSach();
+}
+
 // Hàm hiển thị danh sách ốc và linh kiện
 function hienThiDanhSach() {
   var bangDanhSach = document
@@ -70,7 +100,7 @@ function hienThiDanhSach() {
     cellSoLuong.innerHTML = item.soLuong;
   });
 
-  // Hiển thị danh sách linh kiện
+  // Hiển thị danh sách linh kiện mua
   danhSachLinhKienTam.forEach(function (item) {
     var row = bangDanhSach.insertRow();
     var cellLoai = row.insertCell(0);
@@ -80,13 +110,54 @@ function hienThiDanhSach() {
     cellTen.innerHTML = item.ten;
     cellSoLuong.innerHTML = item.soLuong;
   });
+
+  // Hiển thị danh sách linh kiện giacong
+  danhSachGiaCongTam.forEach(function (item) {
+    var row = bangDanhSach.insertRow();
+    var cellLoai = row.insertCell(0);
+    var cellTen = row.insertCell(1);
+    var cellSoLuong = row.insertCell(2);
+    cellLoai.innerHTML = '加工品';
+    cellTen.innerHTML = item.ten;
+    cellSoLuong.innerHTML = item.soLuong;
+  });
 }
 
-// Hàm xóa tất cả dữ liệu đã nhập
-function xoaDuLieu() {
-  danhSachOcTam = [];
-  danhSachLinhKienTam = [];
-  hienThiDanhSach();
+// Hàm bắt đầu đồng hồ
+function batDauDongHo() {
+  if (isRunning) return; // Ngăn không cho bấm nhiều lần
+
+  isRunning = true;
+  thoiGianBatDau = new Date(); // Ghi lại thời gian bắt đầu
+  thoiGianDemNguoc = setInterval(capNhatDongHo, 1000); // Cập nhật đồng hồ mỗi giây
+}
+
+// Hàm kết thúc đồng hồ
+function ketThucDongHo() {
+  clearInterval(thoiGianDemNguoc); // Dừng cập nhật đồng hồ
+  isRunning = false;
+  thoiGianKetThuc = new Date(); // Ghi lại thời gian kết thúc
+  capNhatDongHo(); // Cập nhật đồng hồ lần cuối khi kết thúc
+}
+
+// Hàm cập nhật đồng hồ
+function capNhatDongHo() {
+  const thoiGianHienTai = isRunning
+    ? new Date()
+    : thoiGianKetThuc || new Date();
+  const khoangThoiGian = new Date(thoiGianHienTai - thoiGianBatDau);
+
+  // Tính toán giờ, phút và giây
+  const gio = Math.floor(khoangThoiGian / 1000 / 60 / 60);
+  const phut = Math.floor((khoangThoiGian / 1000 / 60) % 60);
+  const giay = Math.floor((khoangThoiGian / 1000) % 60);
+
+  // Hiển thị thời gian dạng HH:MM:SS
+  document.getElementById('thoiGian').innerText = `${gio
+    .toString()
+    .padStart(2, '0')}:${phut.toString().padStart(2, '0')}:${giay
+    .toString()
+    .padStart(2, '0')}`;
 }
 
 // Hàm để lưu dữ liệu vào bảng danh sách và xuất ra file PDF
@@ -95,13 +166,9 @@ function luuDuLieu() {
   xuatExcel(); // Gọi hàm xuất file PDF
 }
 
-// Hàm để xuất nội dung bảng thành file PDF
-// Hàm để xuất nội dung bảng thành file PDF
-
 function xuatExcel() {
   // Lấy tên bộ phận lắp ráp
   const tenBoPhan = document.getElementById('tenBoPhan').value;
-
   // Lấy bảng danh sách từ HTML
   const bangDanhSach = document
     .getElementById('bangDanhSach')
@@ -136,6 +203,24 @@ function xuatExcel() {
     data.push(rowData); // Thêm dòng dữ liệu vào mảng `data`
   }
 
+  // Thêm thông tin thời gian lắp ráp
+  let thoiGianLapRap = `alert`; // Mặc định nếu không có thời gian kết thúc
+
+  if (thoiGianBatDau && thoiGianKetThuc) {
+    const thoiGianLapRapMs = thoiGianKetThuc - thoiGianBatDau; // Thời gian lắp ráp bằng milliseconds
+    const thoiGianLapRapPhut = Math.floor(thoiGianLapRapMs / 1000 / 60); // Chuyển đổi sang phút
+
+    // Kiểm tra và hiển thị nếu thời gian hợp lệ
+    if (thoiGianLapRapPhut >= 0) {
+      thoiGianLapRap = `${thoiGianLapRapPhut} 分`; // Hoặc chuyển đổi sang giờ và phút nếu cần
+    }
+  }
+
+  // Thêm vào mảng dữ liệu
+  data.push([]);
+  data.push(['注意点', document.getElementById('ghiChu').value]);
+  data.push(['組立の時間', thoiGianLapRap]);
+
   // Tạo workbook và worksheet
   const wb = XLSX.utils.book_new();
   const ws = XLSX.utils.aoa_to_sheet(data);
@@ -143,4 +228,11 @@ function xuatExcel() {
 
   // Xuất file Excel
   XLSX.writeFile(wb, 'danh_sach_oc_linh_kien.xlsx');
+}
+
+// Hàm xóa tất cả dữ liệu đã nhập
+function xoaDuLieu() {
+  danhSachOcTam = [];
+  danhSachLinhKienTam = [];
+  hienThiDanhSach();
 }
