@@ -18,10 +18,6 @@ body {
   line-height: 1.6;
 }
 
-body {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-}
 input {
   margin-bottom: 10px;
   display: block;
@@ -55,6 +51,12 @@ td {
   text-align: left;
 }
 
+code,
+pre {
+  background: #333;
+  color: #fff;
+  padding: 10px;
+}
 /* showcase */
 .showcase {
   background-color: var(--primary-color);
@@ -68,14 +70,16 @@ td {
 }
 
 /*flex*/
+
 .flex {
-  margin-top: auto;
+  display: flex;
   background-color: var(--success-color);
   color: #fff;
-  text-align: center;
+  justify-content: center;
 }
 
 /*grid*/
+
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -83,40 +87,54 @@ td {
   justify-items: center;
 }
 
+/*lam cham qua trinh khi di chuot qua phan tu*/
+/*
 .card1 {
-  /*  lam cham qua trinh khi di chuot qua phan tu*/
   transition: transform 0.5s ease-in-out;
 }
-
+  */
+/*
 .card2 {
-  margin: 10px 10px;
-  /*  lam cham qua trinh khi di chuot qua phan tu*/
   transition: transform 0.5s ease-in-out;
 }
-
+*/
+/*
 .card1:hover {
   transform: translatey(-6px);
 }
 .card2:hover {
   transform: translatey(-6px);
 }
+*/
+/* footer */
+.footer .social a {
+  margin: 0 10px;
+}
+
+.grid {
+  overflow: visible;
+  grid-template-columns: 50% 45%;
+}
+
+/*bang danh sach*/
+
 /* table and under */
 @media (max-width: 786px) {
   .showcase {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
   }
-  .showcase .navar .flex .memo .time {
+  .showcase .navar .flex .footer {
     height: auto;
   }
 }
 
 /* mobile */
 @media (max-width: 500px) {
-  .navar .showcase .flex .memo .time {
+  .showcase .flex .footer .time .memo {
     height: 110px;
   }
-  .navar .showcase .flex .memo .time {
+  .showcase .flex .footer .time .memo {
     flex-direction: column;
     justify-items: center;
   }
