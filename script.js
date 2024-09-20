@@ -11,7 +11,8 @@ function themOc() {
   var tenOc = document.getElementById('tenOc').value;
   var soLuongOc = parseInt(document.getElementById('soLuongOc').value);
 
-  if (!tenOc || soLuongOc <= 0 || isNaN(soLuongOc)) {
+  if (!tenOc || isNaN(soLuongOc)) {
+    // Kiểm tra chỉ khi số lượng không phải là một số hợp lệ
     alert('Vui lòng nhập tên và số lượng hợp lệ.');
     return;
   }
@@ -22,8 +23,17 @@ function themOc() {
   });
 
   if (ocTonTai) {
-    ocTonTai.soLuong += soLuongOc; // Nếu có, cập nhật số lượng
+    // Nếu có, cập nhật số lượng (cho phép cộng số âm)
+    ocTonTai.soLuong += soLuongOc;
+
+    // Xóa chi tiết nếu số lượng bằng 0 hoặc nhỏ hơn
+    if (ocTonTai.soLuong <= 0) {
+      danhSachOcTam = danhSachOcTam.filter(function (item) {
+        return item.ten !== tenOc;
+      });
+    }
   } else {
+    // Nếu chưa tồn tại và số lượng khác 0, thêm mới
     danhSachOcTam.push({ ten: tenOc, soLuong: soLuongOc });
   }
 
@@ -37,7 +47,7 @@ function themLinhKien() {
     document.getElementById('soLuongLinhKien').value
   );
 
-  if (!tenLinhKien || soLuongLinhKien <= 0 || isNaN(soLuongLinhKien)) {
+  if (!tenLinhKien || isNaN(soLuongLinhKien)) {
     alert('Vui lòng nhập tên và số lượng hợp lệ.');
     return;
   }
@@ -48,8 +58,17 @@ function themLinhKien() {
   });
 
   if (linhKienTonTai) {
-    linhKienTonTai.soLuong += soLuongLinhKien; // Nếu có, cập nhật số lượng
+    // Cập nhật số lượng
+    linhKienTonTai.soLuong += soLuongLinhKien;
+
+    // Xóa nếu số lượng bằng 0 hoặc nhỏ hơn
+    if (linhKienTonTai.soLuong <= 0) {
+      danhSachLinhKienTam = danhSachLinhKienTam.filter(function (item) {
+        return item.ten !== tenLinhKien;
+      });
+    }
   } else {
+    // Nếu chưa tồn tại, thêm mới
     danhSachLinhKienTam.push({ ten: tenLinhKien, soLuong: soLuongLinhKien });
   }
 
@@ -63,7 +82,7 @@ function themGiaCong() {
     document.getElementById('soLuongGiaCong').value
   );
 
-  if (!tenGiaCong || soLuongGiaCong <= 0 || isNaN(soLuongGiaCong)) {
+  if (!tenGiaCong || isNaN(soLuongGiaCong)) {
     alert('Vui lòng nhập tên và số lượng hợp lệ.');
     return;
   }
@@ -74,8 +93,17 @@ function themGiaCong() {
   });
 
   if (giaCongTonTai) {
-    giaCongTonTai.soLuong += soLuongGiaCong; // Nếu có, cập nhật số lượng
+    // Cập nhật số lượng
+    giaCongTonTai.soLuong += soLuongGiaCong;
+
+    // Xóa nếu số lượng bằng 0 hoặc nhỏ hơn
+    if (giaCongTonTai.soLuong <= 0) {
+      danhSachGiaCongTam = danhSachGiaCongTam.filter(function (item) {
+        return item.ten !== tenGiaCong;
+      });
+    }
   } else {
+    // Nếu chưa tồn tại, thêm mới
     danhSachGiaCongTam.push({ ten: tenGiaCong, soLuong: soLuongGiaCong });
   }
 
