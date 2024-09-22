@@ -264,3 +264,56 @@ function xoaDuLieu() {
   danhSachLinhKienTam = [];
   hienThiDanhSach();
 }
+
+let lastScrollTop = 0; // Lưu vị trí cuộn trước đó
+let hideTimeout; // Biến để lưu timeout khi ẩn nút
+
+// Lắng nghe sự kiện cuộn trang
+window.onscroll = function () {
+  scrollFunction();
+  resetHideTimeout(); // Reset lại thời gian ẩn nút khi có cuộn
+};
+
+function scrollFunction() {
+  const scrollUpBtn = document.getElementById('scrollUpBtn');
+  const scrollDownBtn = document.getElementById('scrollDownBtn');
+  let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+  // Kiểm tra cuộn lên hay cuộn xuống
+  if (currentScroll > lastScrollTop) {
+    // Nếu cuộn xuống, hiện nút cuộn lên và ẩn nút cuộn xuống
+    scrollUpBtn.style.display = 'block';
+    scrollDownBtn.style.display = 'none';
+  } else if (currentScroll < lastScrollTop) {
+    // Nếu cuộn lên, hiện nút cuộn xuống và ẩn nút cuộn lên
+    scrollUpBtn.style.display = 'none';
+    scrollDownBtn.style.display = 'block';
+  }
+
+  lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; // Tránh giá trị âm khi cuộn lên
+}
+
+// Hàm reset thời gian ẩn nút
+function resetHideTimeout() {
+  // Nếu có timeout trước đó, xóa nó
+  if (hideTimeout) {
+    clearTimeout(hideTimeout);
+  }
+
+  // Thiết lập timeout mới để ẩn nút sau 30 giây
+  hideTimeout = setTimeout(function () {
+    document.getElementById('scrollUpBtn').style.display = 'none';
+    document.getElementById('scrollDownBtn').style.display = 'none';
+  }, 30000); // 30 giây = 30000 ms
+}
+
+// Khi nhấn vào nút cuộn lên, đưa trang về đầu
+function scrollToTop() {
+  document.body.scrollTop = 0; // Cuộn về đầu trang (cho Safari)
+  document.documentElement.scrollTop = 0; // Cuộn về đầu trang (cho Chrome, Firefox, IE và Opera)
+}
+
+// Khi nhấn vào nút cuộn xuống, đưa trang xuống cuối
+function scrollToBottom() {
+  window.scrollTo(0, document.body.scrollHeight); // Cuộn xuống cuối trang
+}
