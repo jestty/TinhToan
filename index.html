@@ -18,8 +18,9 @@
   </head>
   <body class="navar">
     <section>
+      
+      <h1>組立の部品の数量 </h1>
       <div class="showcase grid">
-        <h1>組立の部品の数量</h1>
 
         <div class="boPhan">
           <label for="tenBoPhan">部品の名前</label>
@@ -31,7 +32,7 @@
           <input type="text" id="tenOc" />
           <label for="soLuongOc">数量</label>
           <input type="number" id="soLuongOc" />
-          <button class="card btn bg-dark" onclick="themOc()">加算</button>
+          <button class="button" onclick="themOc()">加算</button>
         </div>
 
         <div class="linhKien">
@@ -39,7 +40,7 @@
           <input type="text" id="tenLinhKien" />
           <label for="soLuongLinhKien">数量</label>
           <input type="number" id="soLuongLinhKien" />
-          <button class="card btn bg-dark" onclick="themLinhKien()">加算</button>
+          <button class="button" onclick="themLinhKien()">加算</button>
         </div>
 
         <div class="giaCong">
@@ -47,7 +48,7 @@
           <input type="text" id="tenGiaCong" />
           <label for="soLuongGiaCong">数量</label>
           <input type="number" id="soLuongGiaCong" />
-          <button class="card btn bg-dark" onclick="themGiaCong()">加算</button>
+          <button class="button" onclick="themGiaCong()">加算</button>
         </div>
 
         <div class="memo">
@@ -56,19 +57,23 @@
         </div>
 
         <div class="time">
-          <h3>タイマー</h3>
+          <h3 class="txtThoiGian">タイマー</h3>
           <button class="btn card bg-dark" onclick="batDauDongHo()">スタート</button>
+          <div class="btn card bg-dark" id="thoiGian">00:00:00</div>
           <button class="btn card bg-dark" onclick="ketThucDongHo()">ストップ</button>
-          <div class="btn bg-dark" id="thoiGian">00:00:00</div>
         </div>
 
         <div class="bangDanhSach">
           <button class="card btn bg-dark" onclick="xuatExcel()">保存</button>
           <button class="card btn bg-dark" onclick="xoaDuLieu()">削除</button>
         </div>
+        <div class="void">
+          <h1>     </h1>
+        </div>
       </div>
+      
     </section>
-
+    
     <!-- Bảng danh sách -->
     <section class="py-1 flex">
       <div>
