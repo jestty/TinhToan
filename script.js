@@ -262,6 +262,7 @@ function xuatExcel() {
 function xoaDuLieu() {
   danhSachOcTam = [];
   danhSachLinhKienTam = [];
+  danhSachGiaCongTam = [];
   hienThiDanhSach();
 }
 
